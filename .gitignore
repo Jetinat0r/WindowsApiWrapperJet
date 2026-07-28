@@ -1,0 +1,7 @@
+#Auto-Generated Files
+.vs/
+Builds/
+Intermediate/
+
+#User Specific Files
+*.user
