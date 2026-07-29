@@ -16,10 +16,10 @@ typedef LRESULT (*WNDPROC_MESSAGE_HANDLER)(HWND, UINT, WPARAM, LPARAM);
 struct WindowProcMessageHandler
 {
 public:
-	HWND windowHandle;
-	bool assignedToWndProc;
-	WNDPROC originalWndProc;
-	std::vector<WNDPROC_MESSAGE_HANDLER> callbackMessageHandlers;
+    HWND windowHandle;
+    bool assignedToWndProc;
+    WNDPROC originalWndProc;
+    std::vector<WNDPROC_MESSAGE_HANDLER> callbackMessageHandlers;
 };
 
 //Create & Destroy WindowProcMessageHandler, and add it to the registeredWindowProcMessageHandlers map
