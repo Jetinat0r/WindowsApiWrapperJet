@@ -22,10 +22,6 @@ public:
 	std::vector<WNDPROC_MESSAGE_HANDLER> callbackMessageHandlers;
 };
 
-//Map of all windows we should be looking for messages from and what handlers each window desires
-std::mutex msgHandlerLock;
-std::map<HWND, WindowProcMessageHandler> registeredWindowProcMessageHandlers;
-
 //Create & Destroy WindowProcMessageHandler, and add it to the registeredWindowProcMessageHandlers map
 extern "C" WINDOWSAPIWRAPPERJET_API bool CreateWindowProcMessageHandler(HWND _windowHandle);
 extern "C" WINDOWSAPIWRAPPERJET_API bool DestroyWindowProcMessageHandler(HWND _windowHandle);

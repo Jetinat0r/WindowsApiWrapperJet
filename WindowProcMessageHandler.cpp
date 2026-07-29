@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "WindowProcMessageHandler.h"
 
+//Map of all windows we should be looking for messages from and what handlers each window desires
+std::recursive_mutex msgHandlerLock;
+std::map<HWND, WindowProcMessageHandler> registeredWindowProcMessageHandlers;
+
 WINDOWSAPIWRAPPERJET_API bool CreateWindowProcMessageHandler(HWND _windowHandle)
 {
     msgHandlerLock.lock();
@@ -153,7 +157,7 @@ LRESULT static HandleMessage(HWND _windowHandle, UINT _message, WPARAM _wparam, 
 {
     LRESULT _result;
 
-    msgHandlerLock.lock();    
+    msgHandlerLock.lock();
     std::map<HWND, WindowProcMessageHandler>::iterator _windowProcMessageHandlerIterator = registeredWindowProcMessageHandlers.find(_windowHandle);
     if (_windowProcMessageHandlerIterator != registeredWindowProcMessageHandlers.end())
     {
@@ -168,7 +172,7 @@ LRESULT static HandleMessage(HWND _windowHandle, UINT _message, WPARAM _wparam, 
 
         WNDPROC _wndProc = _windowProcMessageHandler->originalWndProc;
         //If we don't unlock before calling CallWindowProc, everything breaks. I have no idea why
-        msgHandlerLock.unlock();
+        //msgHandlerLock.unlock();
         
         //Call Original WndProc function if available, or call the default and use its return value
         if (_wndProc != nullptr)
@@ -182,9 +186,10 @@ LRESULT static HandleMessage(HWND _windowHandle, UINT _message, WPARAM _wparam, 
     }
     else
     {
-        msgHandlerLock.unlock();
+        //msgHandlerLock.unlock();
         _result = DefWindowProc(_windowHandle, _message, _wparam, _lParam);
     }
 
+    msgHandlerLock.unlock();
     return _result;
 }
