@@ -6,7 +6,7 @@ WINDOWSAPIWRAPPERJET_API bool AddTrayIcon(HWND _windowHandle, GUID _iconGuid, TC
     NOTIFYICONDATA _iconData = {};
     _iconData.cbSize = sizeof(_iconData);
     _iconData.hWnd = _windowHandle;
-    _iconData.uFlags = NIF_GUID | NIF_ICON | NIF_TIP | NIF_SHOWTIP;
+    _iconData.uFlags = NIF_GUID | NIF_ICON | NIF_TIP | NIF_SHOWTIP | NIF_MESSAGE;
     _iconData.uVersion = NOTIFYICON_VERSION_4;
     _iconData.uCallbackMessage = WMAPP_NOTIFYCALLBACK;
 
